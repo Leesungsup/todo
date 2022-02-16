@@ -1,33 +1,40 @@
-var express=require('express');
-//var routes=require('routes');
-var http=require('http');
-var path=require('path');
-
-var app=express();
+const express=require('express');
+const app=express();
 var port=3000;
+let toDoLists=["밥먹기"]
+app.set('view engine','pug');
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+app.get('/',(req,res)=>{
+    res.render('index',{toDoListTitle:'오늘의 할 일 : '+toDoLists.length,toDoLists:toDoLists})
+})
 
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(express.methodOverride());		// 구식 브라우저 메소드 지원
-app.use(app.router);
-app.use(require('stylus').middleware(__dirname + '/public'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.post('/add_list',(req,res)=>{
+    const newContent=req.body.content
+    console.log(newContent+'추가')
+    toDoLists.push(newContent)
+    res.redirect('/')
+})
 
+app.get('/delete_list/:id',(req,res)=>{
+    var content = req.params.id
+    console.log(content+'삭제')
+    toDoLists=toDoLists.filter((value)=> value!=content)
+    res.redirect('/')
+})
 
-app.get('/', routes.index);
-app.get('/list', todo.list);
-app.post('/add', todo.add);
-app.post('/complete', todo.complete);
-app.post('/del', todo.del);
+app.get('/open_update/:id',(req,res)=>{
+    res.render('update',{prevContent:req.params.id})
+})
 
-http.createServer(app).listen(app.get('port'), function(){
-    console.log("Express server listening on port " + app.get('port'));
-});
-/*app.listen(port, () => {
-    console.log(`Server Listening on ${port}`)
-});*/
+app.post('/update_list',(req,res)=>{
+    let origin_content=req.body.prevContent;
+    let update_content=req.body.newContent;
+    let index = toDoLists.indexOf(origin_content)
+    toDoLists.splice(index,1,update_content)
+    res.redirect('/')
+})
+
+app.listen(port,()=>{
+    console.log('connected!')
+})
