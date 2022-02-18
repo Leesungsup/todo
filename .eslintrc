@@ -1,0 +1,21 @@
+{
+    "plugins": ["prettier"],
+    "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "script"
+    },
+    "env": {
+      "browser": false,
+      "node": true
+    },
+    "ignorePatterns": ["node_modules/"],
+    "rules": {
+      "prettier/prettier": [
+        "error",
+        {
+          "endOfLine": "auto"
+        }
+      ]
+    }
+  }
