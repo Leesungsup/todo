@@ -2,11 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import KakaoMap from './Pages/kakaoMap';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <KakaoMap />
   </React.StrictMode>,
   document.getElementById('root')
 );
