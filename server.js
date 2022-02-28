@@ -29,7 +29,7 @@ const kakao={
 
 app.get('/auth',(req,res)=>{
     const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientID}&redirect_uri=${kakao.redirectUri}&response_type=code`;
-    console.log(kakaoAuthURL);
+    //console.log(kakaoAuthURL);
     res.redirect(kakaoAuthURL);
 })
 
